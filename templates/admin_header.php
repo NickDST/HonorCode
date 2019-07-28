@@ -47,7 +47,7 @@ if (!isset($_SESSION['tutors_administrator'])) {
     	<div class="sidebar-wrapper">
             <div class="logo">
                 <a href="../hub/admin_hub" class="simple-text">
-                    C - Honor
+                    HonorCode
                 </a>
             </div>
 			<ul class="nav">

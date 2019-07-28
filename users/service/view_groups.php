@@ -11,7 +11,7 @@
 $is_production = false;
 
 function initial_load($connection){
-	$sql = "SELECT * FROM `groups` LIMIT 20";
+	$sql = "SELECT * FROM `groups_list` LIMIT 20";
                                 $result = mysqli_query( $connection, $sql );
                                 if($result){
 									while ( $row = mysqli_fetch_assoc( $result ) ) {
