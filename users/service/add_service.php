@@ -3,8 +3,8 @@
 
 $is_production = false;
 
-function initial_load($connection){
-	$sql = "SELECT * FROM `projects` WHERE type = 'public' LIMIT 20";
+function initial_load($connection, $user_id){
+	$sql = "SELECT * FROM `projects` WHERE type = 'public' OR (type = 'private' AND initiated_by = '$user_id') LIMIT 20";
                                 $result = mysqli_query( $connection, $sql );
                                 if($result){
 									while ( $row = mysqli_fetch_assoc( $result ) ) {
@@ -25,9 +25,9 @@ function initial_load($connection){
 }
 
 
-function search_load($connection, $search){
-    $sql = "SELECT * FROM `projects` WHERE type = 'public'
-             (group_name LIKE '%$search%' OR advisor_contact LIKE '%$search%' OR group_type LIKE '%$search%' OR group_description) LIMIT 30";
+function search_load($connection, $search, $user_id){
+    $sql = "SELECT * FROM `projects` WHERE (type = 'public' AND
+             (group_name LIKE '%$search%' OR advisor_contact LIKE '%$search%' OR group_type LIKE '%$search%' OR group_description)) LIMIT 30";
 			
 	$result = mysqli_query( $connection, $sql );
 	$queryResults = mysqli_num_rows( $result );
@@ -60,7 +60,7 @@ function search_load($connection, $search){
 
                             <h2 class="title"><strong>Add and Create Projects</strong></h2>
                             <p class="lead">Add yourself to projects and create new projects</p>
-							<h3><a class = 'btn btn-dark' href="add_project">Create a new Project</a></h3>
+							<h3><a class = 'btn btn-warning' href="add_project">Create a new Project</a></h3>
                         </div>	
 						</div>
 						<div class="" style="padding-left:15px; padding-right:15px">
@@ -76,10 +76,10 @@ function search_load($connection, $search){
 								<hr>
 								<?php
                                 if(!isset($_POST['search_user'])){
-                                    initial_load($connection);
+                                    initial_load($connection, $user_id);
                                 } else {
                                     $search = mysqli_real_escape_string($connection, $_POST['search_user']);
-                                    search_load($connection, $search);
+                                    search_load($connection, $search, $user_id);
                                 }
 								?>
 							</div>

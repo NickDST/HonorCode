@@ -36,13 +36,13 @@ if(isset($_POST['apply_to_group'])) {
     $sql_check2 = "SELECT * FROM `users_in_groups` WHERE group_id = '$group_id' AND user_id = '$user_id'";
     $result_check2 = mysqli_query($connection, $sql_check);
 
-    if(!$result_check2){
+    if(mysqli_num_rows($result_check2) != 1){
 
         // Add a query check to make sure the user has not already submitted a request
         $sql_check = "SELECT * FROM `group_requests` WHERE group_id = '$group_id' AND user_id = '$user_id'";
         $result_check = mysqli_query($connection, $sql_check);
 
-        if(!$result_check){
+        if(mysqli_num_rows($result_check) != 1){
             $sql = "INSERT INTO `group_requests` (user_id, additional_details, group_id)
             VALUES ('$user_id', '$additional_details', '$group_id')";
 

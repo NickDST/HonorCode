@@ -25,7 +25,7 @@
                        
 
                             <h2 class="title"><strong>View my Service</strong></h2>
-                            <p class="lead">View Groups and their details.</p>
+                            <p class="lead">View all my service hour details for each group I'm involved in.</p>
 							<h3><a class = 'btn btn-warning' href="my_service_hours">My Service Hours</a></h3>
                         </div>	
 						</div>
@@ -37,7 +37,7 @@
                         <div class="jumbotron jumbotron-fluid">
 
                             <h2 class="title"><strong>Add Service</strong></h2>
-                            <p class="lead">View Groups and their details.</p>
+                            <p class="lead">Log in Service Hours, create projects, view other projects and edit projects here!</p>
 							<h3><a class = 'btn btn-primary' href="add_service">Add Service Hours</a></h3>
                         </div>	
 						</div>
