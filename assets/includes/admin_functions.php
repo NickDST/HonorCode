@@ -1,7 +1,7 @@
 <?php
 
 function find_groupid_from_name($group_name, $connection){
-    $sql = "SELECT group_id FROM `groups` WHERE group_name = '$group_name'";
+    $sql = "SELECT group_id FROM `groups_list` WHERE group_name = '$group_name'";
     $result = mysqli_query( $connection, $sql );
     if($result){
         $count = mysqli_num_rows( $result );
@@ -15,7 +15,7 @@ function find_groupid_from_name($group_name, $connection){
 }
 
 function check_if_groupname_exists($group_name, $connection){
-    $sql = "SELECT group_id FROM `groups` WHERE group_name = '$group_name'";
+    $sql = "SELECT group_id FROM `groups_list` WHERE group_name = '$group_name'";
     $result = mysqli_query( $connection, $sql );
     if($result){
         $count = mysqli_num_rows( $result );

@@ -4,6 +4,12 @@ $project_id = mysqli_real_escape_string( $connection, $_GET[ 'projectid' ] );
 
 $is_production = true;
 
+
+if (!$is_honor_society_member) {
+	Redirect('../hub/hub?error=Sorry Must be an Honor Society Member to Edit');
+  exit;
+}
+
 //migrated from the admin_group_edit.php template file to here because it made more sense
 $group_id = mysqli_real_escape_string($connection, $_GET['groupid']);
 

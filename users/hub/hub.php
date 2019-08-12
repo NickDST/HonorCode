@@ -9,7 +9,7 @@
                             <br>
                             <div class = "" style= "padding-left:15px; padding-right:15px;">
                                 <div class="jumbotron">
-                                <h1 class="display-3">Welcome! <? echo $user_id?></h1>
+                                <h1 class="display-3">Welcome!</h1>
 
                                 <p class="lead">Here you can apply for groups (honor societies or school clubs) and accept tutoring requests that automatically get registered.</p>
                                 <hr class="my-2">

@@ -21,6 +21,20 @@ if(mysqli_num_rows( $result ) != 1){
     Redirect("add_service?error=Group Does Not Exist");
 }
 
+function find_groupid_from_name($group_name, $connection){
+    $sql = "SELECT group_id FROM `groups_list` WHERE group_name = '$group_name'";
+    $result = mysqli_query( $connection, $sql );
+    if($result){
+        $count = mysqli_num_rows( $result );
+        if ( $count == 1 ) {
+            while ( $row = $result->fetch_assoc() ):
+                $group_id = $row['group_id'];
+            endwhile;
+            return $group_id;
+        }
+    } 
+}
+
 if ( isset( $_POST['delete'] ) & !empty( $_POST['delete'] ) ) {
     $sql2 = "DELETE from `users_in_projects` WHERE project_id = '$project_id' AND user_id = '$user_id'";
     $sql1 = "DELETE from `service_for_groups` WHERE project_id = '$project_id' AND user_id = '$user_id'";
@@ -54,12 +68,15 @@ if ( isset( $_POST['add'] ) && !empty( $_POST['add'] ) ) {
         $checked = $_POST['affiliated_group_for_servicehours'];
         for($i=0; $i < count($checked); $i++){
 
-            $sql_check = "SELECT * FROM `service_for_groups` WHERE user_id = '$user_id' AND project_id = '$project_id' AND group_name = '$checked[$i]'";
+            $new_group_id = find_groupid_from_name($checked[$i], $connection);
+            
+
+            $sql_check = "SELECT * FROM `service_for_groups` WHERE user_id = '$user_id' AND project_id = '$project_id' AND group_id = '$new_group_id'";
             $resultcheck = mysqli_query( $connection, $sql_check );
             $num_rows = mysqli_num_rows($resultcheck);
             if($num_rows == 0){
 
-                echo $sql = "INSERT INTO `service_for_groups` (user_id, group_name, project_id) VALUES ('$user_id', '$checked[$i]', '$project_id')";
+                echo $sql = "INSERT INTO `service_for_groups` (user_id, group_id, project_id) VALUES ('$user_id', '$new_group_id', '$project_id')";
                 $result = mysqli_query( $connection, $sql );
                 echo "Added ". $checked[$i];
 
@@ -109,8 +126,12 @@ if ( isset( $_POST['edit'] ) && !empty( $_POST['edit'] ) ) {
         $checked = $_POST['affiliated_group_for_servicehours'];
 
         for($i=0; $i < count($checked); $i++){
-                $group_name = mysqli_real_escape_string( $connection, $checked[$i] );
-                echo $sql = "INSERT INTO `service_for_groups` (user_id, group_name, project_id) VALUES ('$user_id', '$group_name', '$project_id')";
+
+                $new_group_id = find_groupid_from_name($checked[$i], $connection);
+
+
+                // $group_name = mysqli_real_escape_string( $connection, $checked[$i] );
+                echo $sql = "INSERT INTO `service_for_groups` (user_id, group_id, project_id) VALUES ('$user_id', '$new_group_id', '$project_id')";
                 $result = mysqli_query( $connection, $sql );
                 echo "Added ". $checked[$i];
         // echo "Selected " . $checked[$i] . "<br/>";
@@ -163,14 +184,15 @@ if ( isset( $_POST['edit'] ) && !empty( $_POST['edit'] ) ) {
                                 <p><?php echo "Project Details: ".  $project_details ?></p>
                                 <!-- <p><?php echo "Added By: ".  $initiated_by ?></p> -->
                                 <p><?php echo "Datetime Started: ".  $datetime_start ?></p>
+                                <p><?php echo "Project View: ".  $type ?></p>
 
                                 <hr>
 
                                 <?php
                                             //finding what group leader role that student is in
-                                            $studentdatasql = "SELECT * FROM `service_for_groups`
+                                            $studentdatasql = "SELECT service_for_groups.*, groups_list.* FROM `service_for_groups`, `groups_list`
                                             WHERE user_id = '$user_id' AND 
-                                            project_id = '$project_id'";
+                                            project_id = '$project_id' AND service_for_groups.group_id = groups_list.group_id";
 
                                             $resultstudent = mysqli_query( $connection, $studentdatasql );
 
@@ -355,6 +377,9 @@ if ( isset( $_POST['edit'] ) && !empty( $_POST['edit'] ) ) {
                                     <hr>
 
 <!-- Only Honor Society Members can Edit Projects -->
+
+<?php if($is_honor_society_member){ ?>
+
                                     <strong>Any Honor Society Member can edit project details. Please be careful and wise with your decisions.</strong>
                                     <br>
                                     <br>
@@ -362,6 +387,8 @@ if ( isset( $_POST['edit'] ) && !empty( $_POST['edit'] ) ) {
                                     <a href="<? echo  $str?>" class="btn btn-warning" >Edit the Project Details</a>
                                     <br>
                                     <br>
+
+<?php }?>
                             </div>
                 </div>
             </div>

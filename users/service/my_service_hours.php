@@ -94,10 +94,16 @@ if(isset($_POST['update_entries'])){
                                         while ( $row2 = mysqli_fetch_assoc( $resultstudent ) ) {
                                             $total_hours = 0;
                                             $group_id = $row2['group_id'];
-                                            $group_name = $row2['group_name'];
+
+                                            $sql3 = "SELECT * FROM `groups_list` WHERE group_id = '$group_id'";
+                                            
+                                            $result3 = mysqli_query( $connection, $sql3 );
+                                            while ( $row4 = mysqli_fetch_assoc( $result3 ) ) {
+                                                $group_name = $row4['group_name'];
+                                            }
 
                                             $sql2 = "SELECT users_in_projects.*, service_for_groups.*, groups_list.* FROM `users_in_projects`, `service_for_groups` , `groups_list`
-                                            WHERE users_in_projects.project_id = service_for_groups.project_id AND service_for_groups.group_name = groups_list.group_name
+                                            WHERE users_in_projects.project_id = service_for_groups.project_id AND service_for_groups.group_id = groups_list.group_id
                                             AND users_in_projects.user_id = service_for_groups.user_id AND users_in_projects.user_id = '$user_id' AND groups_list.group_id = '$group_id'";                                            
 
 
@@ -105,7 +111,6 @@ if(isset($_POST['update_entries'])){
                                             while ( $row3 = mysqli_fetch_assoc( $result2 ) ) {
                                             
                                                 $total_hours = $total_hours + $row3[service_hours];
-                                                $group_name = $row3['group_name'];
                                             }
 
                                             echo "<h3> Group: $group_name </h3>";
@@ -174,7 +179,7 @@ if(isset($_POST['update_entries'])){
                     <div class="col-md-12">
                         <div class="card">
                             <div class = "" style= "padding-left:15px; padding-right:15px; padding-top:5px;">
-                              <h3 class="list-group-item list-group-item-action list-group-item-secondary" > My Service </h3>
+                              <h3 class="list-group-item list-group-item-action list-group-item-warning" > My Service </h3>
                                 <hr>
                                     <table class="table">
                                     <thead>
@@ -200,9 +205,9 @@ if(isset($_POST['update_entries'])){
                                                     $role = $row['role'];
 
                                                      //finding what group leader role that student is in
-                                            $studentdatasql = "SELECT * FROM `service_for_groups`
-                                            WHERE user_id = '$user_id' AND 
-                                            project_id = '$project_id'";
+                                                     $studentdatasql = "SELECT service_for_groups.*, groups_list.* FROM `service_for_groups`, `groups_list`
+                                                     WHERE user_id = '$user_id' AND 
+                                                     project_id = '$project_id' AND service_for_groups.group_id = groups_list.group_id";
                                             $count_towards = ""; 
 
                                             $resultstudent = mysqli_query( $connection, $studentdatasql );

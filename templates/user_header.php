@@ -23,6 +23,22 @@ if($count == 0){
     $is_leader = True;
 }
 
+$sql = "SELECT * FROM `users` WHERE user_id = '$user_id'";
+$result = mysqli_query($connection, $sql);
+if($result){
+    while ( $row = $result->fetch_assoc() ):
+        $full_name = $row['first_name'] . " " . $row['last_name'];
+    endwhile;
+}
+
+$sql = "SELECT users_in_groups.*, groups_list.* FROM `users_in_groups`, `groups_list` WHERE users_in_groups.user_id = '$user_id' 
+AND users_in_groups.group_id = groups_list.group_id AND groups_list.group_type = 'Honor Society'";
+$result = mysqli_query($connection, $sql);
+if(mysqli_num_rows($result) > 0){
+    $is_honor_society_member = True;
+} else {
+    $is_honor_society_member = False;
+}
 
 ?>
 
@@ -130,7 +146,7 @@ if($count == 0){
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Welcome To HonorCode</a>
+                    <a class="navbar-brand" href="#">Welcome <? echo $full_name ?></a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-left">
