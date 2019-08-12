@@ -11,6 +11,18 @@ if (!isset($_SESSION['user'])) {
 
 $user_id = $_SESSION['user'];
 
+//default false
+$is_leader = False;
+
+$is_leader_sql = "SELECT is_group_leader FROM `users_in_groups` where user_id = '$user_id' AND is_group_leader = 'yes'";
+$result = mysqli_query($connection, $is_leader_sql);
+$count = mysqli_num_rows( $result );
+if($count == 0){
+    $is_leader = False;
+} else {
+    $is_leader = True;
+}
+
 
 ?>
 
@@ -69,7 +81,7 @@ $user_id = $_SESSION['user'];
                 </li>
                 <br>
                 <li class="active">
-                    <a href="../service/manage_groups">
+                    <a href="../service/service_hours">
                         <i class="pe-7s-graph1"></i>
                         <p> My Service Hours</p>
                     </a>
@@ -95,6 +107,7 @@ $user_id = $_SESSION['user'];
                         <p>Apply for Groups</p>
                     </a>
                 </li>
+                <?php if($is_leader){ ?>
                 <br>
                 <li class="active">
                     <a href="../group-leader/select_group.php">
@@ -102,7 +115,7 @@ $user_id = $_SESSION['user'];
                         <p>Leadership</p>
                     </a>
                 </li>
-
+                <?php } ?>
             </ul>
     	</div>
     </div>

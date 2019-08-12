@@ -9,3 +9,48 @@
 
 
 ?>
+
+
+
+<div class="content">
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="card">
+
+						<div class="header">
+                        <h1>Service Hub</h1>
+                        <div class="jumbotron jumbotron-fluid">
+                       
+
+                            <h2 class="title"><strong>View my Service</strong></h2>
+                            <p class="lead">View Groups and their details.</p>
+							<h3><a class = 'btn btn-warning' href="my_service_hours">My Service Hours</a></h3>
+                        </div>	
+						</div>
+						<div class="" style="padding-left:15px; padding-right:15px">
+						</div>
+                        
+
+						<div class="header">
+                        <div class="jumbotron jumbotron-fluid">
+
+                            <h2 class="title"><strong>Add Service</strong></h2>
+                            <p class="lead">View Groups and their details.</p>
+							<h3><a class = 'btn btn-primary' href="add_service">Add Service Hours</a></h3>
+                        </div>	
+						</div>
+						<div class="" style="padding-left:15px; padding-right:15px">
+						<br>
+						</div>
+
+                        
+                        
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
