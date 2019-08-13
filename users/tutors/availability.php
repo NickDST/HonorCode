@@ -3,17 +3,13 @@ session_start();
 require_once('../../assets/includes/dbh.inc.php');
 require_once('../../assets/includes/email_functions.php');
 
+
 if (!isset($_SESSION['user'])) {
-	echo "PLEASE LOG IN";
+	Redirect('../login/login');
+  exit;
 }
 
-if (isset($_SESSION['user'])) {
-	$id = $_SESSION['user'];
-	
-	?> 	 <?php	 
-} else {
-	echo "nothing yet";
-}
+$user_id = $_SESSION['user'];
 
 
 // $sql = "SELECT * FROM students WHERE studentid = '$id'";
@@ -26,7 +22,7 @@ if (isset($_SESSION['user'])) {
 // endwhile;
 //include 'hubheader.php'
 
-$studentname = "Nicholas Ho";
+
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +58,7 @@ $studentname = "Nicholas Ho";
     selectHelper:true,
     select: function(start, end, allDay)
     {
-     var title = prompt("Enter Event Title");
+     var title = 'Available';
      if(title)
      {
       var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
@@ -118,7 +114,7 @@ $studentname = "Nicholas Ho";
 
     eventClick:function(event)
     {
-     if(confirm("Are you sure you want to remove it?"))
+     if(confirm("Are you sure you want to remove this Availability Time?"))
      {
       var id = event.id;
       $.ajax({
@@ -156,7 +152,7 @@ $studentname = "Nicholas Ho";
                         <div class="card">
 
                             <div class="header" style = "margin-left:20px; margin-top:10px;">
-                                <h2 class="title"><?php echo $studentname;?></h2>
+                                <h2 class="title"></h2>
                                 <h4 class="category">Set Availability</h4>
                             </div>
                        <div class = "" style= "padding-left:15px;">
@@ -188,36 +184,23 @@ $studentname = "Nicholas Ho";
 						   
 						   <p>Click on the event time to delete it.</p>
 						   
-						   
-						   
-						   	<?php
-				$fieldsql = "SELECT users_in_subjects.*, users.* FROM users_in_subjects, users WHERE users.user_id = users_in_subjects.user_id AND users.user_id = '$user_id'";
-				$fieldresultsql = mysqli_query( $connection, $fieldsql );
+						    
+						   <p>Subjects I can tutor:</p>
+                           <?php
+                                    $sql = "SELECT users_in_subjects.*, tutor_subjects.* FROM users_in_subjects, tutor_subjects WHERE users_in_subjects.subject_id = tutor_subjects.subject_id AND users_in_subjects.user_id = '$user_id'";
+                                    $result = mysqli_query($connection, $sql);
+                                    if(mysqli_num_rows($result) > 0){
+                                        while ( $row = mysqli_fetch_assoc( $result ) ) {
+                                            echo $row['subject_name'];
+                                            echo "<br>";
+                                        }
+                                    } else {
+                                        echo "No Subjects Currently set to Tutor";
+                                    }
 
-				$fieldresultCheck = mysqli_num_rows($fieldresultsql); 
-				
-				echo "Fields I'm tutoring in: ";
-				if ($fieldresultCheck > 0) {
-					
-					while ( $fieldinfo = $fieldresultsql->fetch_assoc() ): ?>
-	
-					<?php echo $fieldinfo['subject']. ",";?> 
-					
-					
-					<?php endwhile;  ?>
-					
-					
-			<?php	
-				} else {
-					echo "Nothing Entered Yet";
-				}
-				?>
-			    <br>
-				<br>		   
-				<a href="changeaccountinfo.php" class ="btn btn-warning">Change these subjects</a>
-			    <br>
-				<br>		   
-				<a href="hub.php" class ="btn btn-info">Back to Hub</a>
+                                ?>
+				<br>		   	   
+				<a href="hub" class ="btn btn-info">Back to Hub</a>
 				<br>
 				<br>
 				
