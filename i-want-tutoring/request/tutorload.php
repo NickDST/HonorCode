@@ -1,19 +1,11 @@
 <?php
-/*
-include "includes/dbh.inc.php";
-
-$sql1 = "SELECT * FROM students_in_subjects WHERE subject = 'biology' ";
-$result = mysqli_query($connection, $sql);
-while ($student = $result->fetch_assoc()): ?>	
-*/
-include "../assets/includes/dbhcal.inc.php";
+include "../../assets/includes/dbhcal.inc.php";
 session_start();
 
 
-if (isset($_SESSION['subjectname'])) {
-	$subjectname = $_SESSION['subjectname'];
+if (isset($_SESSION['subject_id'])) {
+	$subject_id = $_SESSION['subject_id'];
 	
-	?> 	 <?php	 
 } else {
 	//echo "nothing yet";
 }
@@ -24,7 +16,7 @@ $data = array();
 
 //$query = "SELECT available_times.*, students_in_subjects.* FROM available_times, students_in_subjects WHERE available_times.studentid = students_in_subjects.studentid AND students_in_subjects.subject = '$subjectname' AND available_times.hold = 'free' AND datetime_start > adddate(now(),+2)";
 
-$query = "SELECT available_times.*, users_in_subjects.*, users.* FROM available_times, users_in_subjects, users WHERE available_times.user_id = students_in_subjects.user_id AND users_in_subjects.subject_name = '$subjectname' AND users.user_id = available_times.user_id AND available_times.hold = 'free'";
+$query = "SELECT available_times.*, users_in_subjects.*, users.* FROM available_times, users_in_subjects, users WHERE available_times.user_id = users_in_subjects.user_id AND users_in_subjects.subject_id = '$subject_id' AND users.user_id = available_times.user_id AND available_times.hold = 'free'";
 
 
 $statement = $connect->prepare($query);
@@ -38,7 +30,7 @@ foreach($result as $row)
  $data[] = array(
   'id'   => $row["id"],
 	 //taking out the titles
-  'title'   => $row["name"],
+  'title'   => $row["user_full_name"],
   'start'   => $row["datetime_start"],
   'end'   => $row["datetime_end"]
  );

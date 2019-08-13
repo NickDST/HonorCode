@@ -11,6 +11,7 @@ if (!isset($_SESSION['user'])) {
 
 $user_id = $_SESSION['user'];
 
+
 //default false
 $is_leader = False;
 
@@ -30,6 +31,9 @@ if($result){
         $full_name = $row['first_name'] . " " . $row['last_name'];
     endwhile;
 }
+
+
+$_SESSION['user_full_name'] = $full_name;
 
 $sql = "SELECT users_in_groups.*, groups_list.* FROM `users_in_groups`, `groups_list` WHERE users_in_groups.user_id = '$user_id' 
 AND users_in_groups.group_id = groups_list.group_id AND groups_list.group_type = 'Honor Society'";

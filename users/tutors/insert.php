@@ -10,16 +10,17 @@ if(isset($_POST["title"]))
 {
  $query = "
  INSERT INTO available_times
- (title, datetime_start, datetime_end, user_id)
- VALUES (:title, :start_event, :end_event, :userid)
+ (title, datetime_start, datetime_end, user_id, user_full_name)
+ VALUES (:title, :start_event, :end_event, :userid, :user_full_name)
  ";
  $statement = $connect->prepare($query);
  $statement->execute(
   array(
-   ':title'  => $_POST['title'],
+   ':title'  => $_POST["title"],
    ':start_event' => $_POST['start'],
    ':end_event' => $_POST['end'],
    ':userid' => $_SESSION['user'],
+   ':user_full_name' => $_SESSION['user_full_name'],
    
   )
  );
