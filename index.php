@@ -5,4 +5,6 @@
 <a href="users/hub/hub"> Normal Users</a>
 <br>
 <a href="users/login/register"> Register New User </a>
+<br>
+<a href="i-want-tutoring/request_tutoring.php"> Request Tutoring </a>
 
