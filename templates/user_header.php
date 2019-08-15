@@ -29,6 +29,7 @@ $result = mysqli_query($connection, $sql);
 if($result){
     while ( $row = $result->fetch_assoc() ):
         $full_name = $row['first_name'] . " " . $row['last_name'];
+        $user_email = $row['email'];
     endwhile;
 }
 

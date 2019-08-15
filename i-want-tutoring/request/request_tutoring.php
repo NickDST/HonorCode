@@ -8,6 +8,7 @@ $phase2 = False;
 $phase2a = True;
 $phase2b = False;
 $phase3 = False;
+$phase3fail = False;
 
 
 if(isset($_GET['setsubject'])){
@@ -30,7 +31,7 @@ if ( isset( $_SESSION[ 'tutortime' ] ) ) {
 			$datetime_start = $row['datetime_start'];
 			$datetime_end = $row['datetime_end'];
 			$user_full_name = $row['user_full_name'];
-			$tutor_id = $row['user_id'];
+			$person_tutoring_id = $row['user_id'];
 		}
 	}
 
@@ -41,16 +42,80 @@ if ( isset( $_SESSION[ 'tutortime' ] ) ) {
 
 
 if(isset($_POST['send_request'])){
-	//update SQL tables and send 2 emails
-	echo "Sent emails to people";
-	$requestor_name = mysqli_real_escape_string($connection, $_POST['requestor_name']);
-	$requestor_email = mysqli_real_escape_string($connection, $_POST['requestor_email']);
+    //update SQL tables and send 2 emails
+    $requestor_name = mysqli_real_escape_string($connection, $_POST['requestor_name']);
+    $requestor_email = mysqli_real_escape_string($connection, $_POST['requestor_email']);
+    $tutor_details = mysqli_real_escape_string($connection, $_POST['tutor_details']); //add this
+ 
+
+    $sql = "UPDATE `available_times` SET hold = 'on_hold' WHERE id = '$tutor_id'";
+    $result = mysqli_query($connection, $sql);
+    if($result){
+
+        $sql2 = "INSERT INTO `tutor_requests` (requestor_contact, requestor_name, user_id, tutor_details, datetime_start, datetime_end, subject_id) 
+        VALUES ('$requestor_email', '$requestor_name', '$person_tutoring_id', '$tutor_details', '$datetime_start', '$datetime_end', '$subject_id' )";
+        $result2 = mysqli_query($connection, $sql2);
+        if($result2){
+
+            $sql3 = "SELECT * FROM users WHERE user_id = '$person_tutoring_id'";
+            $result3 = mysqli_query($connection, $sql3);
+            if($result3){
+                while ( $row = mysqli_fetch_assoc( $result3 ) ) {
+                    $person_tutoring_email = $row['email'];
+                }
+            }
+            
+            $recipients = array($requestor_email, $nhs_email );
+            $subject = "Tutor Request Submitted!";
+            $content = "Dear $requestor_name ,<br><br>
+            <p> You've submitted a tutor request to $user_full_name for $datetime_start to $datetime_end. </p>
+            <p> If you change your mind just send them an email ($person_tutoring_email) and CC jennifer.chapman@concordiashanghai.org and $nhs_email </p>
+            <br>
+            <br>
+            Thank you for using HonorCode. 
+            ";
+
+            $email_sent = tutorsEmail($recipients, $subject, $content);
+
+
+            $recipients = array($person_tutoring_email, $nhs_email );
+            $subject = "Someone is Requesting Tutoring";
+            $content = "Dear User, <br><br>
+            <p> $requestor_name has submitted a tutoring request for $datetime_start to $datetime_end. </p>
+            <p> Please log into the website and accept the tutoring as soon as you can. Their email is $requestor_email . <br>
+            They have also mentioned the following details: $tutor_details .
+            </p>
+            <br>
+            <br>
+            Thank you for using HonorCode. 
+            ";
+
+            $email_sent2 = tutorsEmail($recipients, $subject, $content);
+
+            if($email_sent && $email_sent2){
+                $phase2 = False;
+                $phase2a = False;
+                $phase2b = False;
+                $phase3 = True;
+
+            } else {
+
+                $phase2 = False;
+                $phase2a = False;
+                $phase2b = False;
+                $phase3fail = True; 
+            }
+        }
+    }
 
 
 	$phase2 = False;
 	$phase2a = False;
 	$phase2b = False;
-	$phase3 = True;
+    $phase3fail = True; 
+    
+    // echo $sql2;
+    // echo $sql; 
 
 }
 
@@ -166,7 +231,9 @@ if(isset($_POST['send_request'])){
 						<input name='requestor_name' type="text" class="form-control" placeholder="Your full name">
 						<br>
 						<input name='requestor_email' type="email" class="form-control" placeholder="Your email">
-						<br>
+                        <br>
+                        <textarea name="tutor_details" id="" cols="30" rows="2" class="form-control" placeholder="Anything else? Additional Details."></textarea>
+                        <br>
 						<button class="btn btn-success" name = "send_request">Submit the Tutor Request!</button>
 						
 						</form>
@@ -193,7 +260,7 @@ if(isset($_POST['send_request'])){
 
 				<div class="header" style="margin-left:20px; margin-top:10px;">
 							
-							<h2>Thanks again for using HonorCode! You will receive an email once our Tutor has accepted your request!</h2>
+							<h2>Thanks again for using HonorCode! You will receive an email once our Tutor has accepted your request! </h2>
 							<br>
 							<a href="../../index" class="btn btn-info">Back to Main Page</a>
 							<br>
@@ -207,6 +274,31 @@ if(isset($_POST['send_request'])){
     </div>
 </div>
 <?php }?>
+
+<?php if($phase3fail){?>
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+			<div class="col-md-12">
+				<div class="card">
+
+				<div class="header" style="margin-left:20px; margin-top:10px;">
+							
+							<h2>Thanks again for using HonorCode! However, something went wrong with the tutor request. Please send an email to jennifer.chapman@gmail.com or <? echo $nhs_email ?> </h2>
+							<br>
+							<a href="../../index" class="btn btn-info">Back to Main Page</a>
+							<br>
+							<br>
+                        </div>
+                    </div>
+
+				</div>
+   			 </div>
+		</div>
+    </div>
+</div>
+<?php }?>
+
 
 </body>
 
