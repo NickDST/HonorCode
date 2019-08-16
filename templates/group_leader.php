@@ -14,6 +14,7 @@ if (!isset($_SESSION['group_leader'])) {
   exit;
 }
 
+
 $group_name = '';
 $group_description = '';
 $advisor_contact = '';

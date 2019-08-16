@@ -99,21 +99,21 @@ if(mysqli_num_rows($result) > 0){
             <ul class="nav">
                 <li class="active">
                     <a href="../hub/tutorials">
-                        <i class="pe-7s-user"></i>
+                        <i class="pe-7s-photo"></i>
                         <p>Tutorial Series</p>
                     </a>
                 </li>
                 <br>
                 <li class="active">
                     <a href="../service/service_hours">
-                        <i class="pe-7s-graph1"></i>
+                        <i class="pe-7s-science"></i>
                         <p> My Service Hours</p>
                     </a>
                 </li>
                 <br>
 				<li class="active">
                     <a href="../service/manage_groups">
-                        <i class="pe-7s-graph1"></i>
+                        <i class="pe-7s-keypad"></i>
                         <p>My Groups</p>
                     </a>
                 </li>
@@ -121,7 +121,7 @@ if(mysqli_num_rows($result) > 0){
                 <br>
                 <li class="active">
                     <a href="../tutors/hub">
-                        <i class="pe-7s-pendrive"></i>
+                        <i class="pe-7s-upload"></i>
                         <p>Tutoring Requests</p>
                     </a>
                 </li>
@@ -129,7 +129,7 @@ if(mysqli_num_rows($result) > 0){
                 <br>
 				<li class="active">
                     <a href="../service/view_groups">
-                        <i class="pe-7s-pendrive"></i>
+                        <i class="pe-7s-rocket"></i>
                         <p>Apply for Groups</p>
                     </a>
                 </li>
@@ -176,7 +176,7 @@ if(mysqli_num_rows($result) > 0){
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                           <a href="../hub/about_me">
+                           <a href="#">
                                <p>Pointless Button</p>
                             </a>
                         </li>
@@ -189,9 +189,9 @@ if(mysqli_num_rows($result) > 0){
 
                               </a>
                               <ul class="dropdown-menu">
-                                <li><a href="myprojects.php">My Account</a></li>
+                                <li><a href="../tutors/hub">My Account</a></li>
                                 <li class="divider"></li>
-                                <li><a href="aboutme.php">Change Password</a></li>
+                                <li><a href="../login/forgot_password">Change Password</a></li>
                               </ul>
                         </li>
                         <li>
