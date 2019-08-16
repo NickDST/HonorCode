@@ -26,8 +26,8 @@ function initial_load($connection, $user_id){
 
 
 function search_load($connection, $search, $user_id){
-    $sql = "SELECT * FROM `projects` WHERE (type = 'public' AND
-             (group_name LIKE '%$search%' OR advisor_contact LIKE '%$search%' OR group_type LIKE '%$search%' OR group_description)) LIMIT 30";
+     $sql = "SELECT * FROM `projects` WHERE (type = 'public' AND
+             (project_name LIKE '%$search%' OR requestor_email LIKE '%$search%' OR project_details LIKE '%$search%')) OR (type = 'private' AND initiated_by = '$user_id') LIMIT 30";
 			
 	$result = mysqli_query( $connection, $sql );
 	$queryResults = mysqli_num_rows( $result );
@@ -67,7 +67,7 @@ function search_load($connection, $search, $user_id){
 							<form method="POST">
 
                             <div class="form-group">
-                            <label for="formGroupExampleInput"><h3>Search for Existing Group</h3></label>
+                            <label for="formGroupExampleInput"><h3>Search for an existing Project to add Service</h3></label>
                             <input type="text" name="search_user" placeholder="Search" class = "form-control" maxlength=100>
                             </div>
 								<button type="submit" name="asdfhlasdk" class = 'btn btn-success'>Search</button>

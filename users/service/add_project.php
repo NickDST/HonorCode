@@ -88,6 +88,7 @@ if ( isset( $_POST ) & !empty( $_POST ) ) {
                                             </select>
 											<br>
 											<br>
+											<p>After submitting the service project, please find this projects under the project list and add your service hours to this project.</p>
 											<button class="btn btn-success" type="submit">submit</button>
 
 										</form>

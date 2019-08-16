@@ -21,27 +21,27 @@ function initial_load($connection, $group_id){
                                             while ( $row = mysqli_fetch_assoc( $studentdataresult ) ) {
                                                 echo "<h2>". $row['username'] . "</h2>";
                                                 echo "<h3>full name: " . $row['first_name'] ." ". $row['last_name'] . "</h3>";
-                                                echo "            <a class = 'btn btn-warning' href = 'view_user?userid=".$row['user_id'] . "'> View Profile </a>
+                                                echo "            <a class = 'btn btn-warning' href = 'view_user?userid=".$row['user_id'] . "'> View Profile </a> <hr>
                                                 ";
                                             }
                                         }
 
 
-                                            //finding what group leader role that student is in
-                                            $studentdatasql = "SELECT * FROM `groups_list`, `users_in_groups`,  `users` 
-                                            WHERE groups_list.group_id = users_in_groups.group_id AND 
-                                            users.user_id = users_in_groups.user_id AND is_group_leader = 'yes' AND users.user_id = '$user_id'";
+                                            // //finding what group leader role that student is in
+                                            // $studentdatasql = "SELECT * FROM `groups_list`, `users_in_groups`,  `users` 
+                                            // WHERE groups_list.group_id = users_in_groups.group_id AND 
+                                            // users.user_id = users_in_groups.user_id AND is_group_leader = 'yes' AND users.user_id = '$user_id'";
 
-                                            $resultstudent = mysqli_query( $connection, $studentdatasql );
+                                            // $resultstudent = mysqli_query( $connection, $studentdatasql );
 
-                                            if($resultstudent){
-                                                echo "<div>";
-                                                while ( $row2 = mysqli_fetch_assoc( $resultstudent ) ) {
-                                                    echo " <h5>This student is a leader of " . $row2['group_name'] . "</h5>";
-                                                }
-                                                echo "</div>";
-                                                echo "<hr>";
-                                            }
+                                            // if($resultstudent){
+                                            //     echo "<div>";
+                                            //     while ( $row2 = mysqli_fetch_assoc( $resultstudent ) ) {
+                                            //         echo " <h5>This student is a leader of " . $row2['group_name'] . "</h5>";
+                                            //     }
+                                            //     echo "</div>";
+                                            //     echo "<hr>";
+                                            // }
 									}
 								} else {
 									if(!$is_production){

@@ -9,6 +9,11 @@ if (!isset($_SESSION['user'])) {
   exit;
 }
 
+if (!isset($_SESSION['is_honor_society_member'])) {
+	Redirect('../hub/hub');
+  exit;
+}
+
 $user_id = $_SESSION['user'];
 
 
@@ -21,7 +26,6 @@ $user_id = $_SESSION['user'];
 
 // endwhile;
 //include 'hubheader.php'
-
 
 ?>
 

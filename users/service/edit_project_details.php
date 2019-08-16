@@ -4,14 +4,35 @@ $project_id = mysqli_real_escape_string( $connection, $_GET[ 'projectid' ] );
 
 $is_production = true;
 
-
 if (!$is_honor_society_member) {
 	Redirect('../hub/hub?error=Sorry Must be an Honor Society Member to Edit');
   exit;
 }
 
+
+
+$sql = "SELECT * FROM users_in_groups WHERE user_id = '$user_id' AND is_group_leader = 'yes'";
+$result = mysqli_query($connection, $sql);
+if(mysqli_num_rows($result) > 0){
+    $is_GL = True;
+} else {
+    $is_GL = False;
+}
+
+
 //migrated from the admin_group_edit.php template file to here because it made more sense
 $group_id = mysqli_real_escape_string($connection, $_GET['groupid']);
+
+
+$sql = "SELECT * FROM projects WHERE initiated_by = '$user_id' AND project_id = '$project_id'";
+$result = mysqli_query($connection, $sql);
+if(mysqli_num_rows($result) > 0){
+    $initiator = True;
+} else {
+    $initiator = False;
+}
+
+
 
 
 function update_if_exists($connection, $array, $table, $unique_id, $unique_id_value){
@@ -208,6 +229,7 @@ if(isset($_POST['update_entries'])){
                     </div>
                   </div>
 <!--  -->
+<?php if($is_GL or $initiator){ ?>
                   <div class="row">
                     <div class="col-md-12">
                         <div class="card">
@@ -224,6 +246,7 @@ if(isset($_POST['update_entries'])){
                         </div>
                     </div>
                   </div>
+<?php } ?>
 <!--  -->
             </div>
         </div>

@@ -101,7 +101,7 @@ if($result){
 
             <ul class="nav">
                 <li class="active">
-                    <a href="../hub/hub">
+                    <a href="../hub/tutorials">
                         <i class="pe-7s-user"></i>
                         <p>Tutorial Series</p>
                     </a>
@@ -127,13 +127,13 @@ if($result){
                         <p> Member Service Hours </p>
                     </a>
                 </li>
-                <br>
+                <!-- <br>
 				<li class="active">
                     <a href="../group-leader/latest_activity">
                         <i class="pe-7s-pendrive"></i>
                         <p>Latest Activity</p>
                     </a>
-                </li>
+                </li> -->
 
             </ul>
     	</div>

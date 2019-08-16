@@ -41,6 +41,9 @@ AND users_in_groups.group_id = groups_list.group_id AND groups_list.group_type =
 $result = mysqli_query($connection, $sql);
 if(mysqli_num_rows($result) > 0){
     $is_honor_society_member = True;
+    $_SESSION['is_honor_society_member'] = $is_honor_society_member;
+
+
 } else {
     $is_honor_society_member = False;
 }
@@ -95,7 +98,7 @@ if(mysqli_num_rows($result) > 0){
 
             <ul class="nav">
                 <li class="active">
-                    <a href="../hub/hub">
+                    <a href="../hub/tutorials">
                         <i class="pe-7s-user"></i>
                         <p>Tutorial Series</p>
                     </a>
@@ -114,6 +117,7 @@ if(mysqli_num_rows($result) > 0){
                         <p>My Groups</p>
                     </a>
                 </li>
+                <?php if ($is_honor_society_member){?>
                 <br>
                 <li class="active">
                     <a href="../tutors/hub">
@@ -121,6 +125,7 @@ if(mysqli_num_rows($result) > 0){
                         <p>Tutoring Requests</p>
                     </a>
                 </li>
+                <?php } ?>
                 <br>
 				<li class="active">
                     <a href="../service/view_groups">

@@ -1,5 +1,11 @@
 <?php include "../../templates/user_header.php";
 
+//only honor society members can tutor
+if (!isset($_SESSION['is_honor_society_member'])) {
+	Redirect('../hub/hub');
+  exit;
+}
+
 
 //TODO: This is the hub for managing the tutor requests
 if(isset($_POST['accept_tutoring'])){
@@ -224,14 +230,14 @@ if(isset($_POST['set_tutoring'])){
                                             <p> Subject: " . $specific_subject_name . "</p>
                                             <p> Request Submitted: " . $row[ 'application_time' ] . "</p>
                                             <form method='POST'>
-                                                <button name = 'accept_tutoring' value=".$row['tutor_request_id'] ." class='btn btn-success' type='submit'>Accept the Tutoring Request</button>
+                                                <button name = 'accept_tutoring' value=".$row['tutor_request_id'] ." class='btn btn-success' type='submit'>Accept the Tutoring Request (this may take a second)</button>
                                             </form>
                                               <hr>
                                             <form method='POST'>
                                                 <label >If rejecting the request, please explain why. This will be sent to the requestor. </label>
                                                 <input name='deny_reason' type='text' class= 'form-control' placeholder = 'If rejecting the request, please explain why. ' required>
                                                 <br>
-                                                <button name = 'deny_tutoring' value=". $row['tutor_request_id'] ." class='btn btn-danger' type='submit'>Reject the Tutoring Request</button>
+                                                <button name = 'deny_tutoring' value=". $row['tutor_request_id'] ." class='btn btn-danger' type='submit'>Reject the Tutoring Request (this may take a second)</button>
                                             </form>
                                         </div>
                                         <hr>";
